@@ -1,0 +1,17 @@
+.git
+.gitignore
+.DS_Store
+.idea
+.vscode
+
+*.test
+*.out
+coverage.*
+
+web/
+
+deploy/grafana
+
+server-bin
+
+docs/

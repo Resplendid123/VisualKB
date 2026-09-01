@@ -1,0 +1,12 @@
+.idea/
+.claude/
+web/node_modules/
+web/.next
+web/.env.local
+web/tsconfig.tsbuildinfo
+web/pnpm-lock.yaml
+web/package-lock.json
+tmp/
+.env
+CLAUDE.md
+go.sum

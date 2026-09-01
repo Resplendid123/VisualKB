@@ -1,0 +1,26 @@
+[build]
+cmd = "go build -o ./tmp/main ./cmd/server"
+bin = "./tmp/main"
+full_bin = "set -a; . ./.env; set +a; ./tmp/main 2>&1 | tee -a /tmp/vkb-server.log"
+
+delay = 500
+exclude_dir = ["node_modules",
+    "web", "deploy", "docs", "scripts", ".git"]
+exclude_unchanged = true
+follow_symlink = false
+include_ext = ["go", "mod", "sum"]
+kill_delay = "1s"
+log = "build-errors.log"
+send_interrupt = true
+stop_on_error = true
+
+[misc]
+clean_on_exit = true
+force_keep_tmp = false
+
+[screen]
+clear_on_rebuild = false
+keep_scroll = true
+
+[log]
+time = true

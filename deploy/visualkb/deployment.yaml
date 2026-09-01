@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: visualkb-server
+  namespace: visualkb-stack
+  labels:
+    app.kubernetes.io/name: visualkb
+    app.kubernetes.io/component: server
+    app.kubernetes.io/managed-by: kustomize
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: visualkb
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: visualkb
+        app.kubernetes.io/component: server
+    spec:
+      serviceAccountName: visualkb-server
+      containers:
+        - name: server
+          image: visualkb-server:dev
+          imagePullPolicy: Never
+          command: ["/app/server"]
+          args: ["-config", "/app/configs/config.yaml"]
+          ports:
+            - name: http
+              containerPort: 8889
+              protocol: TCP
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: INSTANCE_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          volumeMounts:
+            - name: config
+              mountPath: /app/configs
+              readOnly: true
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+      volumes:
+        - name: config
+          configMap:
+            name: visualkb-config

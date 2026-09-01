@@ -1,0 +1,87 @@
+http:
+  addr: localhost:8889
+  read_timeout: 10s
+  write_timeout: 0s
+
+database:
+  host: localhost
+  port: 5432
+  username: postgres
+  password:
+  database: postgres
+  sslmode: disable
+  max_conns: 20
+  min_conns: 2
+
+redis:
+  addr: localhost:6380
+  password:
+  db: 0
+  dial_timeout: 5s
+
+auth:
+  jwt_secret:
+  issuer: knowledgebase
+  ttl: 1h
+  refresh_window: 168h
+  cookie_secure: false
+
+s3:
+  endpoint: localhost:9000
+  region: us-east-1
+  bucket: knowledgebase
+  use_ssl: false
+  access_key: admin123
+  secret_key: admin123
+
+llm:
+  protocol: openai
+  base_url: https://api.minimaxi.com/v1
+  api_key:
+  model: MiniMax-M3
+  context_window: 200000
+  max_tokens: 16384
+
+embedding:
+  base_url: http://localhost:11434/v1
+  api_key:
+  model: qwen3-embedding:0.6b
+  dimension: 1024
+
+rerank:
+  base_url: http://localhost:11434/v1
+  api_key:
+  model: pdurugyan/qwen3-reranker-0.6b-q8_0
+  top_n: 50
+
+query:
+  strategy: none
+  multi_n: 3
+
+observe:
+  endpoint: localhost:4317
+  service_name: knowledgebase
+  service_version: 1.0.0
+  enabled: true
+
+logging:
+  level: info
+  format: json
+
+sandbox:
+  namespace: sandbox
+  pod_ready_timeout: 10s
+  namespace_idle_ttl: 168h
+  build_timeout: 5m
+
+ingest_worker:
+  interval: 4h
+  batch_limit: 200
+  per_doc_timeout: 2m
+
+skills:
+  dir: internal/infra/ai/skills
+
+queue:
+  concurrency: 10
+  shutdown_timeout: 30s
